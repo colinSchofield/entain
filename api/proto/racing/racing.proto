@@ -28,6 +28,8 @@ message ListRacesResponse {
 // Filter for listing races.
 message ListRacesRequestFilter {
   repeated int64 meeting_ids = 1;
+  // Display only those races that have their visible attribute set to true (default, with no filter, displays all races)
+  bool visible = 2;
 }
 
 /* Resources */

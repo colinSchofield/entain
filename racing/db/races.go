@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 	"strings"
 	"sync"
 	"time"
@@ -9,6 +10,7 @@ import (
 	"github.com/golang/protobuf/ptypes"
 	_ "github.com/mattn/go-sqlite3"
 
+	"github.com/colinSchofield/entain/racing/logging"
 	"github.com/colinSchofield/entain/racing/proto/racing"
 )
 
@@ -56,7 +58,9 @@ func (r *racesRepo) List(filter *racing.ListRacesRequestFilter) ([]*racing.Race,
 
 	rows, err := r.db.Query(query, args...)
 	if err != nil {
-		return nil, err
+		wrappedError := fmt.Errorf("unexpected error in call to database Query: %w", err)
+		logging.Logger().Error(wrappedError)
+		return nil, wrappedError
 	}
 
 	return r.scanRaces(rows)
@@ -80,10 +84,16 @@ func (r *racesRepo) applyFilter(query string, filter *racing.ListRacesRequestFil
 		}
 	}
 
+	// default or filter set to false, displays all races regardless of their visibility
+	if filter.GetVisible() {
+		clauses = append(clauses, "visible = 1")
+	}
+
 	if len(clauses) != 0 {
 		query += " WHERE " + strings.Join(clauses, " AND ")
 	}
 
+	logging.Logger().Debugf("Query: (%s) and args: (%v)", query, args)
 	return query, args
 }
 
@@ -98,15 +108,20 @@ func (m *racesRepo) scanRaces(
 
 		if err := rows.Scan(&race.Id, &race.MeetingId, &race.Name, &race.Number, &race.Visible, &advertisedStart); err != nil {
 			if err == sql.ErrNoRows {
+				logging.Logger().Debug("returning the empty element via error result of sql.ErrNoRows")
 				return nil, nil
 			}
 
-			return nil, err
+			wrappedError := fmt.Errorf("unexpected error occurred in call to rows.Scan: %w", err)
+			logging.Logger().Error(wrappedError)
+			return nil, wrappedError
 		}
 
 		ts, err := ptypes.TimestampProto(advertisedStart)
 		if err != nil {
-			return nil, err
+			wrappedError := fmt.Errorf("unexpected error occurred in call to ptypes.TimestampProto: %w", err)
+			logging.Logger().Error(wrappedError)
+			return nil, wrappedError
 		}
 
 		race.AdvertisedStartTime = ts

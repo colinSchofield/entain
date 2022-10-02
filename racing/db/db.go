@@ -1,12 +1,16 @@
 package db
 
 import (
+	"fmt"
 	"time"
 
 	"syreclabs.com/go/faker"
+
+	"github.com/colinSchofield/entain/racing/logging"
 )
 
 func (r *racesRepo) seed() error {
+	logging.Logger().Info("About to seed the database..")
 	statement, err := r.db.Prepare(`CREATE TABLE IF NOT EXISTS races (id INTEGER PRIMARY KEY, meeting_id INTEGER, name TEXT, number INTEGER, visible INTEGER, advertised_start_time DATETIME)`)
 	if err == nil {
 		_, err = statement.Exec()
@@ -26,5 +30,11 @@ func (r *racesRepo) seed() error {
 		}
 	}
 
-	return err
+	if err == nil {
+		logging.Logger().Info("Finished seeding the database..")
+		return nil
+	}
+	wrappedError := fmt.Errorf("unexpected error seeding the database: %w", err)
+	logging.Logger().Error(wrappedError)
+	return wrappedError
 }
