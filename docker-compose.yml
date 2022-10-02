@@ -1,0 +1,19 @@
+version: "3"
+services:
+  frontend:
+    image: entain-api
+    ports: 
+      - "8000:8000"
+    networks:
+      - front-tier
+
+  backend:
+    image: entain-racing
+    ports: 
+      - "9000:9000"
+    networks:
+      - back-tier
+
+networks:
+  front-tier: {}
+  back-tier: {}      

@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "407717b7-2127-446f-9df1-1063f47c6c57",
+		"name": "Entain Racing API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12506640"
+	},
+	"item": [
+		{
+			"name": "List Races",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"filter\": { \"meeting_ids\" : [ 5 ]}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/v1/list-races",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"list-races"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
