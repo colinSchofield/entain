@@ -8,8 +8,8 @@ help:     		## Show this help.
 
 .PHONY: init
 init:			## Download and install the protobuf/grpc support files.
-	@cd api && go mod download && go mod tidy && go mod vendor
-	@cd racing && go mod download && go mod tidy && go mod vendor
+	@cd api && go mod download && go mod tidy
+	@cd racing && go mod download && go mod tidy
 	@cd api && go get github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2 google.golang.org/genproto/googleapis/api google.golang.org/grpc/cmd/protoc-gen-go-grpc google.golang.org/protobuf/cmd/protoc-gen-go
 
 .PHONY: clean

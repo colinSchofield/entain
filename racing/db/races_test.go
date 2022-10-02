@@ -1,7 +1,7 @@
 package db
 
 import (
-	"git.neds.sh/matty/entain/racing/proto/racing"
+	"github.com/colinSchofield/entain/racing/proto/racing"
 	"github.com/stretchr/testify/assert"
 	sqlmock "gopkg.in/DATA-DOG/go-sqlmock.v1"
 	"testing"
