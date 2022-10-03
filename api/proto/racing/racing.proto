@@ -11,6 +11,10 @@ service Racing {
   rpc ListRaces(ListRacesRequest) returns (ListRacesResponse) {
     option (google.api.http) = { post: "/v1/list-races", body: "*" };
   }
+  // Return a race based upon its id
+  rpc GetRace(GetRaceRequest) returns (GetRaceResponse) {
+    option (google.api.http) = { get: "/v1/get-race/{id}" };
+  }
 }
 
 /* Requests/Responses */
@@ -49,6 +53,16 @@ enum SortDirection {
 enum RaceStatus {
   CLOSED = 0;
   OPEN = 1;
+}
+
+// Request for get Race by id call
+message GetRaceRequest {
+  int64 id = 1;
+}
+
+// Response for get Race by id call
+message GetRaceResponse {
+  Race race = 1;
 }
 
 /* Resources */

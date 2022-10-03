@@ -21,6 +21,9 @@ type RacesRepo interface {
 
 	// List will return a list of races.
 	List(filter *racing.ListRacesRequestFilter, sort *racing.ListRacesRequestOrderBy) ([]*racing.Race, error)
+
+	// Get will return a single race or an sql.NotFound error.
+	Get(id int64) (*racing.Race, error)
 }
 
 type racesRepo struct {
@@ -170,5 +173,29 @@ func setRaceStatus(advertisedStartTime time.Time, race *racing.Race) {
 		race.Status = racing.RaceStatus_OPEN
 	} else {
 		race.Status = racing.RaceStatus_CLOSED
+	}
+}
+
+// Get will return a single race or an sql.NotFound error.
+func (r *racesRepo) Get(id int64) (*racing.Race, error) {
+
+	var (
+		args []interface{}
+	)
+	query := getRaceQueries()[racesGet]
+	args = append(args, id)
+
+	if rows, err := r.db.Query(query, args...); err != nil {
+		wrappedError := fmt.Errorf("unexpected error in call to database Query: %w", err)
+		logging.Logger().Error(wrappedError)
+		return nil, wrappedError
+	} else if races, err := r.scanRaces(rows); err != nil {
+		wrappedError := fmt.Errorf("unexpected error in call to database Query: %w", err)
+		logging.Logger().Error(wrappedError)
+		return nil, wrappedError
+	} else if len(races) != 1 {
+		return nil, sql.ErrNoRows
+	} else {
+		return races[0], nil
 	}
 }

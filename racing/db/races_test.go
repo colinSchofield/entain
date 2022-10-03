@@ -232,3 +232,42 @@ func Test_RaceStatusMultiTest(t *testing.T) {
 		assert.Nil(t, err, test.scenario)
 	}
 }
+
+func Test_GetRequestHappyPath(t *testing.T) {
+	// Given
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+	rows := sqlmock.NewRows([]string{"id", "meeting_id", "name", "number", "visible", "advertised_start_time"}).
+		AddRow("1", "2", "North Dakota foes", "3", false, time.Now())
+	mock.ExpectQuery("SELECT id, meeting_id, name, number, visible, advertised_start_time FROM races").
+		WithArgs().
+		WillReturnRows(rows)
+	defer db.Close()
+	racesRepo := NewRacesRepo(db)
+	// When
+	race, err := racesRepo.Get(1)
+	// Then
+	assert.Nil(t, err)
+	assert.NotNil(t, race)
+}
+
+func Test_GetRequestNotFound(t *testing.T) {
+	// Given
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+	rows := sqlmock.NewRows([]string{"id", "meeting_id", "name", "number", "visible", "advertised_start_time"})
+	mock.ExpectQuery("SELECT id, meeting_id, name, number, visible, advertised_start_time FROM races").
+		WithArgs().
+		WillReturnRows(rows)
+	defer db.Close()
+	racesRepo := NewRacesRepo(db)
+	// When
+	race, err := racesRepo.Get(1)
+	// Then
+	assert.NotNil(t, err)
+	assert.Nil(t, race)
+}
