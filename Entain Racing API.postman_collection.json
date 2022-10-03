@@ -320,6 +320,56 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "List Events",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"filter\": { \"visible\" : false}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/v1/list-events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"list-events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Event by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/v1/get-event/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"get-event",
+						"1"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
