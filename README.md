@@ -58,3 +58,11 @@ At Entain I see that you use GitLab's CI/CD, included by the developer (i.e. `.g
 
 The Racing API does not contain any real Logging (either debug or info). This can be a great help when debugging issues with the application, when it is live in production. I intend to use the popular log provider [Logrus](github.com/sirupsen/logrus). 
 This can later be hooked up into AWS CloudWatch, or ingested into another monitoring and observability tool.
+
+#### Task 1 - Add Visible Filter
+
+This task required that I add a boolean variable into the `ListRacesRequestFilter`, do a `make generate` and adjust the applyFilter method to modify the SQL query. If the filter is set to `false` or *no attribute* is given, ListRaces will display all races, regardless of their visibility.
+
+There are a few new test cases to cover this scenario, plus I have added in some integration tests into the Postman collection. I also added the `racing` service into the coverage. For this sort of thing, I might use [mockery](https://medium.com/yemeksepeti-teknoloji/mocking-an-interface-using-mockery-in-go-afbcb83cc773) to generate the mocks, but this is a very straightforward interface, so I will just do it by hand.
+
+A added in some logging  where I thought it was appropriate. Actually, it occurs to me that we probably *should not* include the proto related files (i.e. grpc.pb, pb) in the git repo, as these should always be generated each time. I am removing them from this commit.

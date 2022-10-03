@@ -5,6 +5,8 @@
 **golangci.out
 **.build
 *.out
+/api/api
+racing/racing
 
 ### IntelliJ IDEA ###
 .idea
