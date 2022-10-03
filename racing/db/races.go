@@ -156,9 +156,19 @@ func (m *racesRepo) scanRaces(
 		}
 
 		race.AdvertisedStartTime = ts
-
+		setRaceStatus(advertisedStart, &race)
 		races = append(races, &race)
 	}
 
 	return races, nil
+}
+
+// Any race that is in the future is considered to be open
+func setRaceStatus(advertisedStartTime time.Time, race *racing.Race) {
+
+	if time.Now().Before(advertisedStartTime) {
+		race.Status = racing.RaceStatus_OPEN
+	} else {
+		race.Status = racing.RaceStatus_CLOSED
+	}
 }
