@@ -237,6 +237,89 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get Race by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/v1/get-race/1234",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"get-race",
+						"1234"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Race by id -- Not Found",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/v1/get-race/145646467",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"get-race",
+						"145646467"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Race by id -- Garbage text for Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/v1/get-race/junk",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"get-race",
+						"junk"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Race by id -- Empty id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/v1/get-race",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"get-race"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

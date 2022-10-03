@@ -13,6 +13,8 @@ import (
 type Racing interface {
 	// ListRaces will return a collection of races.
 	ListRaces(ctx context.Context, in *racing.ListRacesRequest) (*racing.ListRacesResponse, error)
+	// Return a race based upon its id
+	GetRace(ctx context.Context, in *racing.GetRaceRequest) (*racing.GetRaceResponse, error)
 }
 
 // racingService implements the Racing interface.
@@ -35,4 +37,13 @@ func (s *racingService) ListRaces(ctx context.Context, in *racing.ListRacesReque
 
 	logging.Logger().Debugf("%d races were returned to the caller", len(races))
 	return &racing.ListRacesResponse{Races: races}, nil
+}
+
+func (s *racingService) GetRace(ctx context.Context, in *racing.GetRaceRequest) (*racing.GetRaceResponse, error) {
+	if race, err := s.racesRepo.Get(in.Id); err != nil {
+		logging.Logger().Errorf("Unexpected error message %s", err)
+		return nil, err
+	} else {
+		return &racing.GetRaceResponse{Race: race}, nil
+	}
 }

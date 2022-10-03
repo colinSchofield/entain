@@ -80,3 +80,11 @@ I decided to mask the names of our tables though and use the JSON names, which s
 I completed this challenge by adding a new status field to the proto file. This testing worked well with the multi-test technique and overall it was quite an easy task. 
 
 One thing that is bothering me, as a protobuf *newbie*, is that we have two identical portions of (`racing`) generated code (i.e. [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)). I am thinking that it must be possible and even desirable to include these in a separate but linked repository (I am sure that it has been done!).
+
+#### Task 4 - Fetch Race by Id
+
+I take back what I said in that previous section 🙈 -- I now see the subtle difference between the `api` and the `racing` prototype files. They are not the same at all!
+
+This task involved a `Get` style of request, reading the value of the `id` off the query string. Once I understood what I needed to do, it all came together quite nicely and involved a few tweaks in the prototype files and modifying the `service` and `db` portions of the code.
+
+I added to the unit tests and I have included an updated postman collection file as well.
