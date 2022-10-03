@@ -18,6 +18,7 @@ service Racing {
 // Request for ListRaces call.
 message ListRacesRequest {
   ListRacesRequestFilter filter = 1;
+  ListRacesRequestOrderBy order = 2;
 }
 
 // Response to ListRaces call.
@@ -30,6 +31,18 @@ message ListRacesRequestFilter {
   repeated int64 meeting_ids = 1;
   // Display only those races that have their visible attribute set to true (default, with no filter, displays all races)
   bool visible = 2;
+}
+
+// Provide the Order By field (must be an 'approved' field from the database). The sort direction (ascending/descending)
+message ListRacesRequestOrderBy {
+  string order_by = 1;
+  SortDirection direction = 2;
+}
+
+// Enumeration indicating sort direction
+enum SortDirection {
+  ASC = 0;
+  DESC = 1;
 }
 
 /* Resources */
