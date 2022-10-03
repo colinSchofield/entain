@@ -73,4 +73,10 @@ I completed the task, including the *'Bonus points'* for ORDER/SORT-BY. The Post
 
 This one contained a potential SQL Injection threat, which I avoided by creating a map and only allowing the caller to specify from the given set of attribute names. The default, should they choose outside of this range, is the `advertised_start_time`. 
 
-I decided to mask the names of our tables though and use the JSON names, which seems more user friendly. 
+I decided to mask the names of our tables though and use the JSON names, which seems more user friendly.
+
+#### Task 3 - Add New Status Field
+
+I completed this challenge by adding a new status field to the proto file. This testing worked well with the multi-test technique and overall it was quite an easy task. 
+
+One thing that is bothering me, as a protobuf *newbie*, is that we have two identical portions of (`racing`) generated code (i.e. [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)). I am thinking that it must be possible and even desirable to include these in a separate but linked repository (I am sure that it has been done!).

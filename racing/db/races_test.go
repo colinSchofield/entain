@@ -198,3 +198,37 @@ func Test_OrderByMultiTest(t *testing.T) {
 
 	}
 }
+
+func Test_RaceStatusMultiTest(t *testing.T) {
+
+	multiTest := []struct {
+		scenario   string
+		rowTime    time.Time
+		raceStatus string
+	}{
+		{scenario: "Race far in the Future", rowTime: time.Now().AddDate(10, 0, 0), raceStatus: "OPEN"},
+		{scenario: "Race far in the Past", rowTime: time.Now().AddDate(-10, 0, 0), raceStatus: "CLOSED"},
+		{scenario: "Race has JUST closed", rowTime: time.Now().AddDate(0, 0, 0), raceStatus: "CLOSED"},
+	}
+
+	for _, test := range multiTest {
+		// Given
+		db, mock, err := sqlmock.New()
+		if err != nil {
+			t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+		}
+		rows := sqlmock.NewRows([]string{"id", "meeting_id", "name", "number", "visible", "advertised_start_time"}).
+			AddRow("1", "2", "North Dakota foes", "3", false, test.rowTime)
+		mock.ExpectQuery(" ").
+			WillReturnRows(rows)
+		defer db.Close()
+		racesRepo := NewRacesRepo(db)
+		filter := &racing.ListRacesRequestFilter{}
+		order := &racing.ListRacesRequestOrderBy{}
+		// When
+		raceResults, err := racesRepo.List(filter, order)
+		// Then
+		assert.Equal(t, raceResults[0].GetStatus().String(), test.raceStatus, test.scenario)
+		assert.Nil(t, err, test.scenario)
+	}
+}
