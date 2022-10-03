@@ -66,3 +66,11 @@ This task required that I add a boolean variable into the `ListRacesRequestFilte
 There are a few new test cases to cover this scenario, plus I have added in some integration tests into the Postman collection. I also added the `racing` service into the coverage. For this sort of thing, I might use [mockery](https://medium.com/yemeksepeti-teknoloji/mocking-an-interface-using-mockery-in-go-afbcb83cc773) to generate the mocks, but this is a very straightforward interface, so I will just do it by hand.
 
 A added in some logging  where I thought it was appropriate. Actually, it occurs to me that we probably *should not* include the proto related files (i.e. grpc.pb, pb) in the git repo, as these should always be generated each time. I am removing them from this commit.
+
+#### Task 2 - Sort and Order by
+
+I completed the task, including the *'Bonus points'* for ORDER/SORT-BY. The Postman collection has again been updated and I did a multi test which includes the range of new scenarios.
+
+This one contained a potential SQL Injection threat, which I avoided by creating a map and only allowing the caller to specify from the given set of attribute names. The default, should they choose outside of this range, is the `advertised_start_time`. 
+
+I decided to mask the names of our tables though and use the JSON names, which seems more user friendly. 

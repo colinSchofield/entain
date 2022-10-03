@@ -15,8 +15,7 @@ type racesRepoMock struct{}
 func (r *racesRepoMock) Init() error {
 	return nil
 }
-
-func (r *racesRepoMock) List(filter *racing.ListRacesRequestFilter) ([]*racing.Race, error) {
+func (r *racesRepoMock) List(filter *racing.ListRacesRequestFilter, sort *racing.ListRacesRequestOrderBy) ([]*racing.Race, error) {
 	return nil, nil
 }
 
@@ -27,7 +26,7 @@ func (r *racesRepoMockError) Init() error {
 	return errors.New("Db error")
 }
 
-func (r *racesRepoMockError) List(filter *racing.ListRacesRequestFilter) ([]*racing.Race, error) {
+func (r *racesRepoMockError) List(filter *racing.ListRacesRequestFilter, sort *racing.ListRacesRequestOrderBy) ([]*racing.Race, error) {
 	return nil, errors.New("Db error")
 }
 

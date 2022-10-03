@@ -20,7 +20,7 @@ type RacesRepo interface {
 	Init() error
 
 	// List will return a list of races.
-	List(filter *racing.ListRacesRequestFilter) ([]*racing.Race, error)
+	List(filter *racing.ListRacesRequestFilter, sort *racing.ListRacesRequestOrderBy) ([]*racing.Race, error)
 }
 
 type racesRepo struct {
@@ -45,7 +45,7 @@ func (r *racesRepo) Init() error {
 	return err
 }
 
-func (r *racesRepo) List(filter *racing.ListRacesRequestFilter) ([]*racing.Race, error) {
+func (r *racesRepo) List(filter *racing.ListRacesRequestFilter, order *racing.ListRacesRequestOrderBy) ([]*racing.Race, error) {
 	var (
 		err   error
 		query string
@@ -55,6 +55,7 @@ func (r *racesRepo) List(filter *racing.ListRacesRequestFilter) ([]*racing.Race,
 	query = getRaceQueries()[racesList]
 
 	query, args = r.applyFilter(query, filter)
+	query = r.applyOrderBy(query, order)
 
 	rows, err := r.db.Query(query, args...)
 	if err != nil {
@@ -95,6 +96,36 @@ func (r *racesRepo) applyFilter(query string, filter *racing.ListRacesRequestFil
 
 	logging.Logger().Debugf("Query: (%s) and args: (%v)", query, args)
 	return query, args
+}
+
+// The order by must be from the 'approved' list of attribute names (default is 'advertisedStartTime').
+func (r *racesRepo) applyOrderBy(query string, order *racing.ListRacesRequestOrderBy) string {
+
+	if order == nil {
+		return query
+	}
+
+	orderedQuery := fmt.Sprintf("%s ORDER BY %s %s", query, checkAttributeName(order.GetOrderBy()), order.GetDirection())
+	return orderedQuery
+}
+
+// This is important as it protects against an sql injection attack. The default is to order by advertisedStartTime (i.e. 'advertised_start_time')
+func checkAttributeName(attributeName string) string {
+
+	const defaultOrderByColumn = "advertised_start_time"
+	allowedColumnNames := map[string]string{
+		"meetingId":           "meeting_id",
+		"name":                "name",
+		"visible":             "visible",
+		"advertisedStartTime": "advertised_start_time",
+	}
+
+	if columnName, ok := allowedColumnNames[attributeName]; ok {
+		return columnName
+	} else {
+		logging.Logger().Warnf("invalid attribute name of (%s). This may be a sql injection attack?!", attributeName)
+		return defaultOrderByColumn
+	}
 }
 
 func (m *racesRepo) scanRaces(

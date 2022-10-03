@@ -92,6 +92,151 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "List Races with Sort by",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"order\": {\n        \"order_by\": \"advertisedStartTime\",\n        \"direction\": \"ASC\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/v1/list-races",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"list-races"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Races with Sort by and SQL Injection",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"order\": {\n        \"order_by\": \"SQL Injection!\",\n        \"direction\": \"ASC\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/v1/list-races",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"list-races"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Races with Sort by Descending",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"order\": {\n        \"order_by\": \"advertisedStartTime\",\n        \"direction\": \"DESC\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/v1/list-races",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"list-races"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Races with Sort with invalid Order by Clause",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"order\": {\n        \"order_by\": \"advertisedStartTime\",\n        \"direction\": \"DOWN\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/v1/list-races",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"list-races"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Races with visible, meeting_id and sort",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"filter\": {\n        \"meeting_ids\": [\n            5,\n            6\n        ],\n        \"visible\": true\n    },\n    \"order\": {\n        \"order_by\": \"name\",\n        \"direction\": \"ASC\"\n    }\n}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/v1/list-races",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"list-races"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

@@ -26,7 +26,7 @@ func NewRacingService(racesRepo db.RacesRepo) Racing {
 }
 
 func (s *racingService) ListRaces(ctx context.Context, in *racing.ListRacesRequest) (*racing.ListRacesResponse, error) {
-	races, err := s.racesRepo.List(in.Filter)
+	races, err := s.racesRepo.List(in.Filter, in.Order)
 	if err != nil {
 		wrappedError := fmt.Errorf("unexpected error occurred in call to Repo List: %w", err)
 		logging.Logger().Error(wrappedError)
