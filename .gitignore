@@ -1,7 +1,21 @@
-api/api
-racing/racing
-.DS_STORE
+### Go ###
+**.bin
+**coverage.out
+**vendor
+**golangci.out
+**.build
 *.out
+
+### IntelliJ IDEA ###
 .idea
-.vscode
+*.iws
+*.iml
+*.ipr
+
+### VS Code ###
+.vscode/
+
+### Mac ###
+**.DS_Store
+
 

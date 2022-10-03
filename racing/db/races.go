@@ -2,13 +2,14 @@ package db
 
 import (
 	"database/sql"
-	"github.com/golang/protobuf/ptypes"
-	_ "github.com/mattn/go-sqlite3"
 	"strings"
 	"sync"
 	"time"
 
-	"git.neds.sh/matty/entain/racing/proto/racing"
+	"github.com/golang/protobuf/ptypes"
+	_ "github.com/mattn/go-sqlite3"
+
+	"github.com/colinSchofield/entain/racing/proto/racing"
 )
 
 // RacesRepo provides repository access to races.
