@@ -14,6 +14,13 @@ services:
     networks:
       - back-tier
 
+  backend2:
+    image: entain-sporting
+    ports: 
+      - "9001:9001"
+    networks:
+      - back-tier
+
 networks:
   front-tier: {}
   back-tier: {}      

@@ -1,0 +1,81 @@
+syntax = "proto3";
+package sporting;
+
+option go_package = "/sporting";
+
+import "google/protobuf/timestamp.proto";
+
+service Sporting {
+  // ListSports will return a collection of all sports.
+  rpc ListSports(ListSportsRequest) returns (ListSportsResponse) {}
+  // Return a sport based upon its id
+  rpc GetSport(GetSportRequest) returns (GetSportResponse) {}
+}
+
+/* Requests/Responses */
+
+message ListSportsRequest {
+  ListSportsRequestFilter filter = 1;
+  ListSportsRequestOrderBy order = 2;
+}
+
+// Response to ListSports call.
+message ListSportsResponse {
+  repeated Sport sports = 1;
+}
+
+// Filter for listing sports.
+message ListSportsRequestFilter {
+  repeated int64 meeting_ids = 1;
+  // Display only those sports that have their visible attribute set to true (default, with no filter, displays all sports)
+  bool visible = 2;
+}
+
+// Provide the Order By field (must be an 'approved' field from the database). The sort direction (ascending/descending)
+message ListSportsRequestOrderBy {
+  string order_by = 1;
+  SortDirection direction = 2;
+}
+
+// Enumeration indicating sort direction
+enum SortDirection {
+  ASC = 0;
+  DESC = 1;
+}
+
+// Enumberation indicating the sport status
+enum SportStatus {
+  CLOSED = 0;
+  OPEN = 1;
+}
+
+// Request for get Sport by id call
+message GetSportRequest {
+  int64 id = 1;
+}
+
+// Response for get Sport by id call
+message GetSportResponse {
+  Sport sport = 1;
+}
+
+/* Resources */
+
+// A sport resource.
+message Sport {
+  // ID represents a unique identifier for the sport.
+  int64 id = 1;
+  // MeetingID represents a unique identifier for the sports meeting.
+  int64 meeting_id = 2;
+  // Name is the official name given to the sport.
+  string name = 3;
+  // Number represents the number of the sport.
+  int64 number = 4;
+  // Visible represents whether or not the sport is visible.
+  bool visible = 5;
+  // AdvertisedStartTime is the time the sport is advertised to run.
+  google.protobuf.Timestamp advertised_start_time = 6;
+  // Indicates the sport status (open or closed).
+  SportStatus status = 7;
+}
+

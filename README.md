@@ -88,3 +88,24 @@ I take back what I said in that previous section 🙈 -- I now see the subtle di
 This task involved a `Get` style of request, reading the value of the `id` off the query string. Once I understood what I needed to do, it all came together quite nicely and involved a few tweaks in the prototype files and modifying the `service` and `db` portions of the code.
 
 I added to the unit tests and I have included an updated postman collection file as well.
+
+#### Task 5 - Create Sport Service
+
+The final task was to create a new service, similar to the racing service, which I did: the `sporting` service. This can be accessible in the Rest API as `Events` (i.e. `list-events` & `get-event`).
+
+Let me be honest here, I merely cut and copied `racing` => `sports` 🤷‍♀️. The challenging part of the exercise was to hook it up correctly into the API and updating the `Makefile`.
+
+I have again updated the postman collection, for the sake of integration testing.
+
+As I am running short on time, I did not create any extra event related information, but all the functionality that were in tasks 0-4 all works correctly..
+
+### Final Notes
+
+Early on I was claiming that I would target the lofty heights of 80% code coverage and with the `service` package I did that. However, the `db` package all I could get was 58%. This was because a fairly major portion involved the DDL required to create and insert into the database and I did not want to attempt to mock that out (what would be the point?).
+
+Thank you guys for giving me this challenge, I learned a lot about gRPC and Protobufs. 🙂
+
+**Colin Schofield**
+e: colin_sch@yahoo.com
+p: 0448 644 233
+l: https://www.linkedin.com/in/colins/
